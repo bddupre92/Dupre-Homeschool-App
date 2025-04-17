@@ -5,6 +5,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "next": "^13.0.0",
     "firebase": "^11.6.0"
   }
 }
