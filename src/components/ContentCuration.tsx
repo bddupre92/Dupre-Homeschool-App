@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { withErrorBoundary } from '../../components/ErrorBoundary';
-import { useAnalytics } from '../../lib/analytics';
-import { useLocalStorageCache } from '../../hooks/useLocalStorageCache';
+import { withErrorBoundary } from '../app/index';
+import { useAnalytics } from '../lib/analytics';
+import { useLocalStorageCache } from '../hooks/useLocalStorageCache';
 
 const ContentCuration = () => {
   const { trackEvent } = useAnalytics();
@@ -360,7 +360,7 @@ const ContentCuration = () => {
                   value={newCollection.description}
                   onChange={(e) => setNewCollection({...newCollection, description: e.target.value})}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                  rows="3"
+                  rows={3}
                 ></textarea>
               </div>
               
@@ -375,5 +375,44 @@ const ContentCuration = () => {
                   className="w-full px-3 py-2 border border-gray-300 rounded-md"
                   placeholder="e.g. Math, Elementary, Worksheets"
                 />
+              </div>
+              
+              <button
+                type="submit"
+                className="w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+              >
+                Create Collection
+              </button>
+            </form>
+          </div>
           
-(Content truncated due to size limit. Use line ranges to read in chunks)
+          {collections.map(collection => (
+            <div key={collection.id} className="md:col-span-1 bg-white p-6 rounded-lg shadow">
+              <h2 className="text-xl font-semibold mb-4">{collection.name}</h2>
+              
+              <p className="text-gray-600 mb-4">{collection.description}</p>
+              
+              <div className="flex justify-between items-center">
+                <button
+                  onClick={() => handleViewCollection(collection)}
+                  className="text-blue-600 hover:text-blue-800"
+                >
+                  View
+                </button>
+                
+                <button
+                  onClick={() => handleDeleteCollection(collection.id)}
+                  className="text-red-600 hover:text-red-800"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default withErrorBoundary(ContentCuration);

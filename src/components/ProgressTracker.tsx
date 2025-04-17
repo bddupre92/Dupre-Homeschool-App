@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { withErrorBoundary } from '../../components/ErrorBoundary';
-import { useAnalytics } from '../../lib/analytics';
-import { useLocalStorageCache } from '../../hooks/useLocalStorageCache';
+import { withErrorBoundary } from '../app/index';
+import { useAnalytics } from '../lib/analytics';
+import { useLocalStorageCache } from '../hooks/useLocalStorageCache';
 
 const ProgressTracker = () => {
   const { trackEvent } = useAnalytics();
@@ -436,5 +436,25 @@ const ProgressTracker = () => {
                         />
                         <span className="text-sm font-medium text-gray-700">Completed</span>
                       </label>
-            
-(Content truncated due to size limit. Use line ranges to read in chunks)
+                    </div>
+                  </div>
+                  
+                  <button
+                    type="submit"
+                    className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
+                  >
+                    Add Progress Entry
+                  </button>
+                </form>
+              </div>
+            </>
+          ) : (
+            <p className="text-gray-500 italic">No student selected</p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default withErrorBoundary(ProgressTracker);

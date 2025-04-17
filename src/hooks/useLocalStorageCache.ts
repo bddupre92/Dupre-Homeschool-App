@@ -1,4 +1,4 @@
-import { useSWRCache } from '../../../lib/cache';
+import { useSWRCache } from '../lib/cache';
 
 // API client for local storage caching
 export function useLocalStorageCache() {

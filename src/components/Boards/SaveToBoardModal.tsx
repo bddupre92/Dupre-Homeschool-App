@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native-web';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, TextInput } from 'react-native-web';
 
 interface SaveToboardModalProps {
   visible: boolean;

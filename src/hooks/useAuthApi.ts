@@ -1,4 +1,4 @@
-import { useQueryCache, useMutationCache, invalidateQueries } from '../../../lib/cache';
+import { useQueryCache, useMutationCache, invalidateQueries } from '../lib/cache';
 
 // API client for user authentication with caching
 export function useAuthApi() {

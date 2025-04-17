@@ -1,6 +1,6 @@
 import React from 'react';
-import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary';
-import DefaultErrorFallback from '../components/ErrorBoundary';
+import ErrorBoundary from '../components/ErrorBoundary';
+import DefaultErrorFallback from './index';
 import { AuthProvider } from '../components/Auth/AuthContext';
 import { AnalyticsProvider } from '../lib/analytics';
 import { CacheProvider } from '../lib/cache';

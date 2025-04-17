@@ -1,13 +1,22 @@
 // src/app/api/posts/[id]/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { getCloudflareContext } from '@cloudflare/next-on-pages';
+// import { getCloudflareContext } from '@cloudflare/next-on-pages'; // REMOVE this import
+
+// Define type for the binding if needed (adjust based on actual D1 client type)
+declare global {
+  namespace NodeJS {
+    interface ProcessEnv {
+      DB: any; // Replace 'any' with the actual D1Database type if available
+    }
+  }
+}
 
 export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
-    const { DB } = getCloudflareContext().env;
+    const DB = process.env.DB; // Access DB via process.env
     const postId = params.id;
     
     // Get post by ID
@@ -37,7 +46,7 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
-    const { DB } = getCloudflareContext().env;
+    const DB = process.env.DB; // Access DB via process.env
     const postId = params.id;
     const data = await request.json();
     
@@ -69,7 +78,8 @@ export async function PUT(
       WHERE id = ?
     `;
     
-    const params = [
+    // Rename this variable to avoid conflict with route params
+    const queryParams = [
       data.title || existingPost.title,
       data.description || existingPost.description,
       data.mediaType || existingPost.mediaType,
@@ -81,7 +91,7 @@ export async function PUT(
       postId
     ];
     
-    await DB.prepare(query).bind(...params).run();
+    await DB.prepare(query).bind(...queryParams).run(); // Use renamed variable
     
     // Return the updated post
     const updatedPost = await DB.prepare(`
@@ -103,7 +113,7 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const { DB } = getCloudflareContext().env;
+    const DB = process.env.DB; // Access DB via process.env
     const postId = params.id;
     
     // Check if post exists

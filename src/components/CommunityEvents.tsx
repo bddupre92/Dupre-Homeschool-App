@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { withErrorBoundary } from '../../components/ErrorBoundary';
-import { useAnalytics } from '../../lib/analytics';
-import { useLocalStorageCache } from '../../hooks/useLocalStorageCache';
+import { withErrorBoundary } from '../app/index';
+import { useAnalytics } from '../lib/analytics';
+import { useLocalStorageCache } from '../hooks/useLocalStorageCache';
 
 const CommunityEvents = () => {
   const { trackEvent } = useAnalytics();
@@ -94,7 +94,7 @@ const CommunityEvents = () => {
         return {
           ...event,
           isAttending: newState,
-          attendees: newState ? event.attendees + 1 : event.attendees - 1
+          attendees: newState ? (Number(event.attendees) || 0) + 1 : Math.max(0, (Number(event.attendees) || 0) - 1)
         };
       }
       return event;
@@ -108,7 +108,7 @@ const CommunityEvents = () => {
         setSelectedEvent({
           ...updatedEvent,
           isAttending: newState,
-          attendees: newState ? updatedEvent.attendees + 1 : updatedEvent.attendees - 1
+          attendees: newState ? (Number(updatedEvent.attendees) || 0) + 1 : Math.max(0, (Number(updatedEvent.attendees) || 0) - 1)
         });
       }
     }
@@ -178,8 +178,8 @@ const CommunityEvents = () => {
     return matchesSearch && matchesVirtual && matchesInPerson && isUpcoming;
   });
   
-  // Sort events by date (upcoming first)
-  const sortedEvents = [...filteredEvents].sort((a, b) => new Date(a.date) - new Date(b.date));
+  // Sort events by date (upcoming first) - Explicitly get time for subtraction
+  const sortedEvents = [...filteredEvents].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
   
   // View event details
   const handleViewEvent = (event) => {
@@ -200,7 +200,7 @@ const CommunityEvents = () => {
   
   // Format date for display
   const formatDate = (dateString) => {
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' } as const;
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
   
@@ -334,7 +334,7 @@ const CommunityEvents = () => {
                   value={newEvent.description}
                   onChange={(e) => setNewEvent({...newEvent, description: e.target.value})}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                  rows="3"
+                  rows={3}
                   required
                 ></textarea>
               </div>
@@ -419,5 +419,131 @@ const CommunityEvents = () => {
           
           {/* Events List */}
           <div className="md:col-span-2 bg-white p-6 rounded-lg shadow">
-            <div className="flex flex-col sm:flex-row justify-betwee
-(Content truncated due to size limit. Use line ranges to read in chunks)
+            <div className="flex flex-col sm:flex-row justify-between mb-4">
+              <h2 className="text-xl font-semibold mb-2 sm:mb-0">Upcoming Events</h2>
+              
+              <div className="flex space-x-2">
+                <input
+                  type="text"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  placeholder="Search events..."
+                  className="px-3 py-1 border border-gray-300 rounded-md w-48"
+                />
+                
+                <div className="flex items-center">
+                  <label className="flex items-center text-sm mr-4">
+                    <input
+                      type="checkbox"
+                      checked={filterVirtual}
+                      onChange={() => setFilterVirtual(!filterVirtual)}
+                      className="mr-1"
+                    />
+                    Virtual
+                  </label>
+                  
+                  <label className="flex items-center text-sm mr-4">
+                    <input
+                      type="checkbox"
+                      checked={filterInPerson}
+                      onChange={() => setFilterInPerson(!filterInPerson)}
+                      className="mr-1"
+                    />
+                    In-person
+                  </label>
+                  
+                  <label className="flex items-center text-sm">
+                    <input
+                      type="checkbox"
+                      checked={filterUpcoming}
+                      onChange={() => setFilterUpcoming(!filterUpcoming)}
+                      className="mr-1"
+                    />
+                    Upcoming only
+                  </label>
+                </div>
+              </div>
+            </div>
+            
+            {sortedEvents.length > 0 ? (
+              <div className="space-y-4">
+                {sortedEvents.map(event => (
+                  <div 
+                    key={event.id} 
+                    className={`border rounded-lg p-4 transition-colors ${isPastEvent(event.date) ? 'bg-gray-50' : 'hover:bg-blue-50 cursor-pointer'}`}
+                    onClick={() => handleViewEvent(event)}
+                  >
+                    <div className="flex justify-between">
+                      <div>
+                        <h3 className="text-lg font-medium mb-1">{event.title}</h3>
+                        <p className="text-sm text-gray-600 mb-2">{formatDate(event.date)} • {event.time}</p>
+                        <p className={`text-sm ${isPastEvent(event.date) ? 'text-gray-500' : 'text-gray-700'}`}>
+                          {event.description.length > 120 
+                            ? `${event.description.substring(0, 120)}...` 
+                            : event.description}
+                        </p>
+                        
+                        <div className="mt-2 flex flex-wrap">
+                          {event.isVirtual && (
+                            <span className="inline-block bg-purple-100 text-purple-800 rounded-full px-2 py-1 text-xs font-semibold mr-2 mb-1">
+                              Virtual
+                            </span>
+                          )}
+                          
+                          {event.tags && event.tags.map(tag => (
+                            <span 
+                              key={tag} 
+                              className="inline-block bg-gray-100 text-gray-800 rounded-full px-2 py-1 text-xs font-semibold mr-2 mb-1"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                          
+                          {isPastEvent(event.date) && (
+                            <span className="inline-block bg-gray-100 text-gray-500 rounded-full px-2 py-1 text-xs font-semibold mr-2 mb-1">
+                              Past Event
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      
+                      <div className="text-right flex flex-col items-end">
+                        <div className="text-sm text-gray-500 mb-1">{event.attendees} {event.attendees === 1 ? 'person' : 'people'} attending</div>
+                        
+                        {!isPastEvent(event.date) && (
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleToggleAttendance(event.id);
+                            }}
+                            className={`px-3 py-1 rounded-md text-sm ${
+                              event.isAttending 
+                                ? 'bg-red-100 text-red-700 hover:bg-red-200' 
+                                : 'bg-blue-100 text-blue-700 hover:bg-blue-200'
+                            } transition-colors`}
+                          >
+                            {event.isAttending ? 'Cancel RSVP' : 'RSVP'}
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-8 text-gray-500">
+                <p>No events found matching your criteria</p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default withErrorBoundary(CommunityEvents, {
+  onError: (error, errorInfo) => {
+    console.error('Error in CommunityEvents component:', error, errorInfo);
+  }
+});

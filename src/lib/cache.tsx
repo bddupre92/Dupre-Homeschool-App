@@ -1,5 +1,7 @@
+"use client";
 import { SWRConfig } from 'swr';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import React from 'react';
 
 // Create a client for react-query
 const queryClient = new QueryClient({
@@ -13,7 +15,11 @@ const queryClient = new QueryClient({
   },
 });
 
-export function CacheProvider({ children }) {
+interface CacheProviderProps {
+  children: React.ReactNode;
+}
+
+export function CacheProvider({ children }: CacheProviderProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <SWRConfig

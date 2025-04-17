@@ -1,24 +1,24 @@
 #:schema node_modules/wrangler/config-schema.json
 name = "homeschool-app"
-main = ".open-next/worker.js"
+# main = ".open-next/worker.js" # REMOVED for @cloudflare/next-on-pages
 compatibility_date = "2024-09-23"
 compatibility_flags = ["nodejs_compat"]
 
-[assets]
-directory = ".open-next/assets"
-binding = "ASSETS"
+# [assets] # REMOVED for @cloudflare/next-on-pages
+# directory = ".open-next/assets"
+# binding = "ASSETS"
 
 [[d1_databases]]
 binding = "DB"
 database_name = "homeschool_db"
-database_id = "local"
+database_id = "local" # <-- IMPORTANT: Replace "local" with your actual D1 DB ID before deployment
 
 [build]
 command = "npm run build"
 
-[build.upload]
-format = "service-worker"
+# [build.upload] # This might be automatically handled by @cloudflare/next-on-pages integration
+# format = "service-worker"
 
-[site]
-bucket = ".next"
-pages_build_output_dir = ".next"
+# [site] # REMOVED - This is for Cloudflare Pages, not Workers
+# bucket = ".next"
+# pages_build_output_dir = ".next"

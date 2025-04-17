@@ -1,5 +1,5 @@
 // src/lib/s3.ts
-import { S3Client, PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
+import { S3Client, PutObjectCommand, DeleteObjectCommand, ObjectCannedACL } from '@aws-sdk/client-s3';
 
 // Initialize S3 client
 const s3Client = new S3Client({
@@ -26,7 +26,7 @@ export async function uploadToS3(file: File, key: string): Promise<string> {
     Key: key,
     Body: Buffer.from(fileBuffer),
     ContentType: file.type,
-    ACL: 'public-read',
+    ACL: 'public-read' as ObjectCannedACL,
   };
 
   try {

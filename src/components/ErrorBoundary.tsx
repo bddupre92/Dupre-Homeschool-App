@@ -1,69 +1,56 @@
-import React, { Component, ErrorInfo, ReactNode } from 'react';
+"use client";
 
+import React from 'react';
+import { ErrorBoundary as ReactErrorBoundary } from 'react-error-boundary';
+
+// Define a fallback component to show when an error occurs
+function DefaultErrorFallback({ error, resetErrorBoundary }) {
+  return (
+    <div role="alert" className="error-boundary-fallback">
+      <h2>Something went wrong.</h2>
+      <details>
+        <summary>Error details</summary>
+        <pre>{error.message}</pre>
+      </details>
+      <button onClick={resetErrorBoundary} className="error-boundary-retry-button">
+        Try again
+      </button>
+    </div>
+  );
+}
+
+// Define the props for our wrapper ErrorBoundary component
 interface ErrorBoundaryProps {
-  children: ReactNode;
-  fallback?: ReactNode;
-  onError?: (error: Error, errorInfo: ErrorInfo) => void;
+  children: React.ReactNode;
+  onError?: (error: Error, info: { componentStack: string }) => void;
+  fallback?: React.ReactNode; // Allow custom fallback
 }
 
-interface ErrorBoundaryState {
-  hasError: boolean;
-  error: Error | null;
-}
-
-class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
-  constructor(props: ErrorBoundaryProps) {
-    super(props);
-    this.state = {
-      hasError: false,
-      error: null
-    };
-  }
-
-  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
-    // Update state so the next render will show the fallback UI
-    return {
-      hasError: true,
-      error
-    };
-  }
-
-  componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
-    // Log the error to an error reporting service
-    console.error('Error caught by ErrorBoundary:', error, errorInfo);
-    
-    // Call the onError callback if provided
-    if (this.props.onError) {
-      this.props.onError(error, errorInfo);
+// Create our ErrorBoundary component using the library
+const ErrorBoundary: React.FC<ErrorBoundaryProps> = ({ 
+  children, 
+  onError = (error, info) => { // Default onError logging
+    console.error("Caught error:", error, info);
+  },
+  fallback 
+}) => {
+  // Create a fallback render function that either returns the custom fallback
+  // or the default error component
+  const renderFallback = ({ error, resetErrorBoundary }) => {
+    if (fallback) {
+      return <>{fallback}</>;
     }
-  }
+    return <DefaultErrorFallback error={error} resetErrorBoundary={resetErrorBoundary} />;
+  };
 
-  render(): ReactNode {
-    if (this.state.hasError) {
-      // You can render any custom fallback UI
-      if (this.props.fallback) {
-        return this.props.fallback;
-      }
-      
-      return (
-        <div className="error-boundary-fallback">
-          <h2>Something went wrong.</h2>
-          <details>
-            <summary>Error details</summary>
-            <p>{this.state.error?.toString()}</p>
-          </details>
-          <button
-            onClick={() => this.setState({ hasError: false, error: null })}
-            className="error-boundary-retry-button"
-          >
-            Try again
-          </button>
-        </div>
-      );
-    }
-
-    return this.props.children;
-  }
-}
+  return (
+    <ReactErrorBoundary
+      fallbackRender={renderFallback}
+      onError={onError}
+    >
+      {children}
+    </ReactErrorBoundary>
+  );
+};
 
 export default ErrorBoundary;

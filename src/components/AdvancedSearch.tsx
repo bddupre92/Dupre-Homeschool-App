@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { withErrorBoundary } from '../../components/ErrorBoundary';
-import { useAnalytics } from '../../lib/analytics';
-import { useLocalStorageCache } from '../../hooks/useLocalStorageCache';
+import { withErrorBoundary } from '../app/index';
+import { useAnalytics } from '../lib/analytics';
+import { useLocalStorageCache } from '../hooks/useLocalStorageCache';
 
 const AdvancedSearch = () => {
   const { trackEvent } = useAnalytics();
@@ -376,5 +376,28 @@ const AdvancedSearch = () => {
               
               <div className="border rounded-lg p-4 hover:bg-gray-50 transition-colors">
                 <div className="flex">
-                  <div 
-(Content truncated due to size limit. Use line ranges to read in chunks)
+                  <div className="w-20 h-20 bg-gray-200 rounded-md flex-shrink-0 mr-4"></div>
+                  <div>
+                    <h3 className="font-medium mb-1">Homeschooling in the Time of Coronavirus</h3>
+                    <p className="text-sm text-gray-600 mb-2">Tips and resources for homeschooling during the pandemic</p>
+                    <div className="flex flex-wrap">
+                      <span className="inline-block bg-orange-100 text-orange-800 rounded-full px-2 py-1 text-xs font-semibold mr-2 mb-1">COVID-19</span>
+                      <span className="inline-block bg-pink-100 text-pink-800 rounded-full px-2 py-1 text-xs font-semibold mr-2 mb-1">Homeschooling</span>
+                      <span className="inline-block bg-teal-100 text-teal-800 rounded-full px-2 py-1 text-xs font-semibold mb-1">All Ages</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default withErrorBoundary(AdvancedSearch, {
+  onError: (error, errorInfo) => {
+    console.error('Error in AdvancedSearch component:', error, errorInfo);
+  }
+});

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { withErrorBoundary } from '../../components/ErrorBoundary';
-import { useAnalytics } from '../../lib/analytics';
+import { withErrorBoundary } from '../app/index';
+import { useAnalytics } from '../lib/analytics';
 
 const LessonPlanner = () => {
   const { trackEvent } = useAnalytics();
@@ -187,7 +187,7 @@ const LessonPlanner = () => {
                 value={newLesson.materials}
                 onChange={handleInputChange}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                rows="2"
+                rows={2}
               ></textarea>
             </div>
             
@@ -200,7 +200,7 @@ const LessonPlanner = () => {
                 value={newLesson.notes}
                 onChange={handleInputChange}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                rows="2"
+                rows={2}
               ></textarea>
             </div>
             

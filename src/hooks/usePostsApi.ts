@@ -1,10 +1,16 @@
-import { useSWRCache } from '../../../lib/cache';
+import { useSWRCache } from '../lib/cache';
 import { useEffect } from 'react';
+
+interface PostFilters {
+  grades?: string[];
+  subjects?: string[];
+  approaches?: string[];
+}
 
 // API client for posts with caching
 export function usePostsApi() {
   // Fetch all posts with optional filtering
-  const usePosts = (filters = {}) => {
+  const usePosts = (filters: PostFilters = {}) => {
     const queryParams = new URLSearchParams();
     
     if (filters.grades?.length) {

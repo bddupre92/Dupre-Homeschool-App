@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { useAuth } from '../../components/Auth/AuthContext';
-import { useAnalytics } from '../../lib/analytics';
+import { useAuth } from './Auth/AuthContext';
+import { useAnalytics } from '../lib/analytics';
 
 export function AnalyticsPageTracker() {
   const { trackPageView, identifyUser } = useAnalytics();

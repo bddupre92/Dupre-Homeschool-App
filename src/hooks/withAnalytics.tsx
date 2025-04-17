@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAnalytics } from '../../lib/analytics';
+import { useAnalytics } from '../lib/analytics';
 
 // Higher-order component to add analytics tracking to any component
 export function withAnalytics(

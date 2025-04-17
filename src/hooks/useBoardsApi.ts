@@ -1,4 +1,4 @@
-import { useSWRCache, useMutationCache, invalidateQueries } from '../../../lib/cache';
+import { useSWRCache, useMutationCache, invalidateQueries } from '../lib/cache';
 
 // API client for boards with caching
 export function useBoardsApi() {

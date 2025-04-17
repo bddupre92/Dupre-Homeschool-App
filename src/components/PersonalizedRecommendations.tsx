@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { withErrorBoundary } from '../../components/ErrorBoundary';
-import { useAnalytics } from '../../lib/analytics';
-import { useLocalStorageCache } from '../../hooks/useLocalStorageCache';
+import { withErrorBoundary } from '../app/index';
+import { useAnalytics } from '../lib/analytics';
+import { useLocalStorageCache } from '../hooks/useLocalStorageCache';
 
 const PersonalizedRecommendations = () => {
   const { trackEvent } = useAnalytics();
@@ -373,5 +373,110 @@ const PersonalizedRecommendations = () => {
                 <div className="flex flex-wrap">
                   {userPreferences.subjects.map(subject => (
                     <span key={subject} className="inline-block bg-green-100 text-green-800 rounded-full px-3 py-1 text-sm font-semibold mr-2 mb-2">
-                    
-(Content truncated due to size limit. Use line ranges to read in chunks)
+                      {subject}
+                    </span>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-gray-500 italic">No subjects selected</p>
+              )}
+            </div>
+            
+            <div>
+              <h3 className="font-medium mb-2">Homeschool Approaches</h3>
+              {userPreferences.approaches.length > 0 ? (
+                <div className="flex flex-wrap">
+                  {userPreferences.approaches.map(approach => (
+                    <span key={approach} className="inline-block bg-yellow-100 text-yellow-800 rounded-full px-3 py-1 text-sm font-semibold mr-2 mb-2">
+                      {approach}
+                    </span>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-gray-500 italic">No approaches selected</p>
+              )}
+            </div>
+            
+            <div>
+              <h3 className="font-medium mb-2">Interests</h3>
+              {userPreferences.interests.length > 0 ? (
+                <div className="flex flex-wrap">
+                  {userPreferences.interests.map(interest => (
+                    <span key={interest} className="inline-block bg-purple-100 text-purple-800 rounded-full px-3 py-1 text-sm font-semibold mr-2 mb-2">
+                      {interest}
+                    </span>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-gray-500 italic">No interests selected</p>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+      
+      <div className="bg-white p-6 rounded-lg shadow mb-6">
+        <h2 className="text-xl font-semibold mb-4">Recommended Content</h2>
+        
+        {recommendations.forYou.length > 0 && (
+          <div className="mb-6">
+            <h3 className="text-lg font-semibold mb-2">For You</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {recommendations.forYou.map(item => (
+                <div key={item.id} className="flex items-center mb-4">
+                  <div className="mr-4">
+                    {getContentTypeIcon(item.type)}
+                  </div>
+                  <div>
+                    <h4 className="text-base font-semibold mb-1">{item.title}</h4>
+                    <p className="text-gray-600">{item.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+        
+        {recommendations.trending.length > 0 && (
+          <div className="mb-6">
+            <h3 className="text-lg font-semibold mb-2">Trending</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {recommendations.trending.map(item => (
+                <div key={item.id} className="flex items-center mb-4">
+                  <div className="mr-4">
+                    {getContentTypeIcon(item.type)}
+                  </div>
+                  <div>
+                    <h4 className="text-base font-semibold mb-1">{item.title}</h4>
+                    <p className="text-gray-600">{item.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+        
+        {recommendations.newContent.length > 0 && (
+          <div className="mb-6">
+            <h3 className="text-lg font-semibold mb-2">New Content</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {recommendations.newContent.map(item => (
+                <div key={item.id} className="flex items-center mb-4">
+                  <div className="mr-4">
+                    {getContentTypeIcon(item.type)}
+                  </div>
+                  <div>
+                    <h4 className="text-base font-semibold mb-1">{item.title}</h4>
+                    <p className="text-gray-600">{item.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default withErrorBoundary(PersonalizedRecommendations);
