@@ -1,0 +1,139 @@
+**Product Requirements Document (PRD): Homeschool Inspiration & Community App (MVP)**
+
+---
+
+## 1. Purpose & Vision  
+Create a mobile‑friendly, web‑accessible platform that unifies content discovery, community support, and simple organization for U.S. homeschoolers. The MVP will let users share and save lesson ideas, follow age‑ and subject‑specific feeds, and engage with peers—addressing fragmented tools and isolation in the homeschooling journey.
+
+---
+
+## 2. Background & Opportunity  
+- **Pain Points:** Overwhelm in curriculum research; isolation from dispersed communities; scattered use of general social apps (Facebook, Pinterest, TikTok) for inspiration.  
+- **Opportunity:** Deliver a dedicated “homeschool‑only” feed + boards experience, combined with light community features, to become the go‑to hub for lesson ideas and peer support.
+
+---
+
+## 3. Objectives & Success Metrics  
+| Objective                                              | Success Metric                                 | Target (6 months)        |
+|--------------------------------------------------------|------------------------------------------------|--------------------------|
+| Drive user adoption                                   | Registered users                              | 5,000                    |
+| Foster engagement                                      | DAU/MAU ratio                                  | ≥ 20%                    |
+| Facilitate content creation                            | Avg. posts per user per month                  | ≥ 2                       |
+| Enable content organization                            | Avg. boards created per user                   | ≥ 1                       |
+| Cultivate community                                   | Comments + likes per post                      | ≥ 5 reactions/post       |
+
+---
+
+## 4. Target Users & Key Personas  
+- **New-to-Homeschool Parent** (e.g. Natalie): Needs clear guidance and reassurance.  
+- **Curriculum Researcher** (e.g. Maria): Seeks peer reviews and consolidated recommendations.  
+- **Co‑op Coordinator** (e.g. Heather): Requires group/event planning and shared boards.  
+- **Time‑Strapped Working Parent** (e.g. Priya): Values curated, ready‑to‑use content and quick search.
+
+---
+
+## 5. User Needs  
+1. **Inspiration & Discovery:** Easily find age‑ and subject‑relevant ideas.  
+2. **Organization:** Save and categorize ideas into boards/collections.  
+3. **Community Support:** Like, comment, and follow peers; ask/answer questions.  
+4. **Relevance:** Filter and search by grade, subject, approach, and media type.  
+5. **Simplicity:** Intuitive UX for varying tech comfort levels.
+
+---
+
+## 6. MVP Scope & Core Features  
+| Feature Area         | Description                                                                                                    |
+|----------------------|----------------------------------------------------------------------------------------------------------------|
+| **User Accounts**    | Sign up/login (email, social SSO), profile with optional homeschool fields (state, grades, approach).          |
+| **Post Creation**    | Upload photos/videos/PDFs; add title, description, tags (grade, subject, approach); assign to a board.         |
+| **Home Feed**        | Algorithmic+chronological mix of posts tailored by user’s profile (age, subjects, location).                   |
+| **Boards & Saving**  | Create personal boards; save posts into boards; add private notes to saved items.                              |
+| **Search & Explore** | Filterable search (grade, subject, approach, media type); view trending & recent content.                      |
+| **Engagement**       | Like, comment on posts; follow creators; notification for interactions.                                         |
+
+---
+
+## 7. User Stories  
+1. **As a** new homeschooler, **I want** to browse a feed of kindergarten‑level activity ideas, **so that** I can quickly find beginner resources.  
+2. **As a** veteran co‑op leader, **I want** to create a shared board for my group, **so that** all members can pin and view co‑op curriculum plans.  
+3. **As a** busy parent, **I want** to filter search results by “special needs‑friendly,” **so that** I see resources applicable to my child.  
+4. **As a** content creator teen, **I want** to upload a short video and see likes/comments, **so that** I feel encouraged to contribute more.
+
+---
+
+## 8. Functional Requirements  
+- **FR1.** Users can register via email or OAuth (Google/Facebook).  
+- **FR2.** Profiles store optional: state, grades taught, homeschool approach.  
+- **FR3.** Post composer accepts image (JPEG/PNG), video (MP4, ≤60 s), and PDF uploads, with metadata fields.  
+- **FR4.** Home feed API returns posts ranked by relevance (matching user tags) and recency.  
+- **FR5.** Boards CRUD: create, rename, delete; add/remove posts; reorder items.  
+- **FR6.** Search API supports multi‑select filters (grade, subject, approach, media type).  
+- **FR7.** Engagement endpoints for like/unlike, comment add/edit/delete, follow/unfollow.  
+- **FR8.** Notifications for likes, comments, new followers.
+
+---
+
+## 9. Non‑Functional Requirements  
+- **NFR1.** **Performance:** Feed page loads within 2 s on 4G.  
+- **NFR2.** **Availability:** 99.5% uptime.  
+- **NFR3.** **Security:** Row‑level data isolation; profiles and private boards accessible only to authorized users.  
+- **NFR4.** **Scalability:** Support up to 50K users in first year; horizontal scaling for API servers.  
+- **NFR5.** **Accessibility:** WCAG AA compliance for core screens.
+
+---
+
+## 10. UX/UI Requirements  
+- **Responsive Design:** Mobile-first, ensuring usability on small screens.  
+- **Intuitive Nav:** Tab bar/side nav with clear labels: Feed, Explore, Boards, Notifications, Profile.  
+- **Clean Aesthetic:** Minimalist layout; focus on media; consistent use of whitespace.  
+- **Onboarding:** Quick setup wizard to select grades, subjects, and interests; followed by a personalized sample feed.
+
+---
+
+## 11. Technical Architecture & Tech Stack  
+- **Frontend:** React (web) + React Native (iOS/Android) or Flutter.  
+- **Backend:** Node.js + Express with RESTful APIs.  
+- **Database:** PostgreSQL (with row‑level security) + Redis for caching.  
+- **Media Storage:** AWS S3 + CloudFront CDN.  
+- **Search & Feed Ranking:** ElasticSearch (or Algolia).  
+- **Auth & Real‑time:** Firebase Auth (optional) + WebSocket notifications service (e.g., Pusher or Socket.io).  
+- **Analytics:** Segment + Mixpanel.
+
+---
+
+## 12. Timeline & Milestones  
+
+| Phase                | Milestone                                  | Duration    |
+|----------------------|--------------------------------------------|-------------|
+| **Planning & Design**| Finalize PRD, wireframes, user flows       | 2 weeks     |
+| **Core Build**       | Accounts, post creation, feed, basic search| 6 weeks     |
+| **Boards & Save**    | Boards CRUD, saving, personal notes        | 4 weeks     |
+| **Engagement**       | Likes, comments, follow, notifications     | 3 weeks     |
+| **QA & Beta**        | Internal QA, bugfixes, beta with 50 users  | 4 weeks     |
+| **Launch**           | Public release, marketing kick‑off         | 2 weeks     |
+
+_Total MVP timeline: ~5 months._
+
+---
+
+## 13. Assumptions & Dependencies  
+- Early seed users (influencers/bloggers) will join and provide initial content.  
+- ElasticSearch/Algolia integration is available without licensing delays.  
+- AWS infrastructure and CI/CD pipelines are in place.
+
+---
+
+## 14. Risks & Mitigations  
+- **Risk:** Low content volume → _Mitigation:_ Beta Creator Program to seed content.  
+- **Risk:** Feature overload → _Mitigation:_ Strict MVP scope; defer advanced planning tools to Phase 2.  
+- **Risk:** User churn if onboarding is poor → _Mitigation:_ Invest in clear, guided onboarding flows.
+
+---
+
+## 15. Success Criteria & Next Steps  
+1. **Internal review & approval** of PRD by stakeholders.  
+2. **User story prioritization** and creation of detailed acceptance criteria.  
+3. **Kickoff sprint planning** for Phase 1.  
+4. **Recruitment** of 20–50 beta creators for early content seeding.
+
+With this PRD, we align product goals, user needs, and implementation roadmap—setting a clear path to deliver a compelling MVP that addresses the core challenges of the homeschooling community.
