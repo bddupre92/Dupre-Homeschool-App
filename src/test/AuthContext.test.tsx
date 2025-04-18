@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { AuthProvider, useAuth } from '../../../components/Auth/AuthContext';
+import { AuthProvider, useAuth } from '../components/Auth/AuthContext';
 
 // Mock Firebase auth
 jest.mock('../../../lib/firebase', () => ({

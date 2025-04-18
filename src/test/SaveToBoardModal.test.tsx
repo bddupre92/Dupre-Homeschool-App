@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import SaveToBoardModal from '../../../components/Boards/SaveToBoardModal';
+import SaveToBoardModal from '../components/Boards/SaveToBoardModal';
 
 describe('SaveToBoardModal Component', () => {
   const mockOnClose = jest.fn();

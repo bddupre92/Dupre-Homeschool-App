@@ -5,6 +5,8 @@ import DefaultErrorFallback from './index';
 import { AuthProvider } from '../components/Auth/AuthContext';
 import { AnalyticsProvider } from '../lib/analytics';
 import { CacheProvider } from '../lib/cache';
+import { Analytics } from '@vercel/analytics/react';
+import './globals.css';
 
 export default function RootLayout({
   children,
@@ -24,13 +26,18 @@ export default function RootLayout({
         console.error('Root level error:', error, errorInfo);
       }}
     >
-      <CacheProvider>
-        <AnalyticsProvider>
-          <AuthProvider>
-            {children}
-          </AuthProvider>
-        </AnalyticsProvider>
-      </CacheProvider>
+      <html lang="en">
+        <body>
+          <CacheProvider>
+            <AnalyticsProvider>
+              <AuthProvider>
+                {children}
+              </AuthProvider>
+            </AnalyticsProvider>
+          </CacheProvider>
+          <Analytics />
+        </body>
+      </html>
     </ErrorBoundary>
   );
 }

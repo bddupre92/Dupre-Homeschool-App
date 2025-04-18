@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native-web';
-import SaveToBoardModal from './SaveToBoardModal';
+import SaveToBoardModal from './Boards/SaveToBoardModal';
 import BoardCreationModal from './Boards/BoardCreationModal';
 
 interface SavePostButtonProps {

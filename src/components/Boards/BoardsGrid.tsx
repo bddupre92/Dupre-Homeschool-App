@@ -1,7 +1,9 @@
+"use client";
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native-web';
 import BoardCard from './BoardCard';
 import BoardCreationModal from './BoardCreationModal';
+import Link from 'next/link';
 
 interface Board {
   id: string;
@@ -128,21 +130,31 @@ const BoardsGrid: React.FC = () => {
           </TouchableOpacity>
         </View>
       ) : (
-        <FlatList
-          data={boards}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <View style={styles.boardCardContainer}>
-              <BoardCard
-                board={item}
-                onPress={() => handleBoardPress(item.id)}
-              />
-            </View>
-          )}
-          numColumns={2}
-          columnWrapperStyle={styles.row}
-          contentContainerStyle={styles.gridContent}
-        />
+        <div style={{ 
+          display: 'grid', 
+          gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', 
+          gap: '20px',
+          marginTop: '20px' 
+        }}>
+          {boards.map(board => (
+            <Link href={`/boards/${board.id}`} key={board.id} style={{ textDecoration: 'none', color: 'inherit' }}>
+              <div style={{ 
+                border: '1px solid #e0e0e0', 
+                borderRadius: '8px',
+                padding: '16px',
+                transition: 'transform 0.2s, box-shadow 0.2s',
+                cursor: 'pointer',
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column'
+              }}>
+                <h3 style={{ fontSize: '18px', marginBottom: '8px' }}>{board.name}</h3>
+                <p style={{ color: '#666', marginBottom: '16px', flexGrow: 1 }}>{board.description}</p>
+                <div style={{ fontSize: '14px', color: '#888' }}>{board.postCount} pins</div>
+              </div>
+            </Link>
+          ))}
+        </div>
       )}
 
       <BoardCreationModal

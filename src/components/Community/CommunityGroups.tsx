@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { withErrorBoundary } from '../app/index';
-import { useAnalytics } from '../lib/analytics';
-import { useLocalStorageCache } from '../hooks/useLocalStorageCache';
+import { withErrorBoundary } from '../../app/index';
+import { useAnalytics } from '../../lib/analytics';
+import { useLocalStorageCache } from '../../hooks/useLocalStorageCache';
 
 const CommunityGroups = () => {
   const { trackEvent } = useAnalytics();

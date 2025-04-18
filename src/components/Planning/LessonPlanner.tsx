@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { withErrorBoundary } from '../app/index';
-import { useAnalytics } from '../lib/analytics';
+import { withErrorBoundary } from '../../app/index';
+import { useAnalytics } from '../../lib/analytics';
 
 const LessonPlanner = () => {
   const { trackEvent } = useAnalytics();

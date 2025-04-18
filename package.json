@@ -2,7 +2,12 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "start:standalone": "node .next/standalone/server.js",
+    "pages:build": "CLOUDFLARE_PAGES=1 npm run build && npx @cloudflare/next-on-pages",
+    "pages:deploy": "npm run pages:build && npx wrangler pages deploy .vercel/output/static",
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.787.0",
@@ -16,7 +21,18 @@
   },
   "devDependencies": {
     "@cloudflare/next-on-pages": "^1.13.12",
+    "@tailwindcss/postcss": "^4.1.4",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@types/jest": "^29.5.14",
     "@types/node": "^22.14.1",
-    "@types/react": "19.1.2"
+    "@types/react": "19.1.2",
+    "autoprefixer": "^10.4.21",
+    "babel-jest": "^29.7.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^4.1.4",
+    "wrangler": "^4.12.0"
   }
 }

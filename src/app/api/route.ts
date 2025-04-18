@@ -2,6 +2,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 // import { getCloudflareContext } from '@cloudflare/next-on-pages'; // REMOVE this import
 
+// Enable Edge Runtime for Cloudflare compatibility
+export const runtime = 'edge';
+
 // Define type for the binding if needed (adjust based on actual D1 client type)
 declare global {
   namespace NodeJS {

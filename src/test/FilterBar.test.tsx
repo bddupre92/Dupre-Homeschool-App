@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import FilterBar from '../../../components/Feed/FilterBar';
+import FilterBar from '../components/Feed/FilterBar';
 
 describe('FilterBar Component', () => {
   const mockGrades = ['Preschool', 'Kindergarten', '1st Grade', '2nd Grade'];
